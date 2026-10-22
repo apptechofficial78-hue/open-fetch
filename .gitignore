@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.wrangler/
+.agents/
+.codex/
+node_modules/
+.env
+.env.*
+!.env.example

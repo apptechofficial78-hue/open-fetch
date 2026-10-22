@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A fast, privacy-friendly downloader for openly accessible media." />
+    <title>OpenFetch — Save media you can access</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="OpenFetch home">
+          <span class="brand-mark">↘</span><span>open<span class="brand-accent">fetch</span></span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#how-it-works">How it works</a>
+          <a href="#supported">Supported sources</a>
+          <a class="nav-button" href="#download">Try it free <span>→</span></a>
+        </nav>
+        <button class="menu-button" aria-label="Open menu">☰</button>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="eyebrow"><span class="pulse"></span> Simple. Private. Yours.</div>
+          <h1>Save the web.<br /><em>Keep it open.</em></h1>
+          <p class="hero-copy">Download openly accessible video and audio from around the web in a few clicks. No account, no tracking, no clutter.</p>
+
+          <form class="download-card" id="download" novalidate>
+            <label for="media-url">Paste a media link</label>
+            <div class="url-row">
+              <span class="link-icon">↗</span>
+              <input id="media-url" type="url" placeholder="https://example.com/video" autocomplete="off" />
+              <button type="submit">Analyze link <span>→</span></button>
+            </div>
+            <div class="card-footer">
+              <span>⌁ Works with public, non-DRM media</span>
+              <span class="privacy-note">⌖ Links are processed securely</span>
+            </div>
+            <p class="form-message" id="form-message" role="status"></p>
+          </form>
+
+          <div class="trust-row"><span>Built for the open web</span><span class="line"></span><span>MP4 · MP3 · WEBM</span><span class="line"></span><span>No sign-up required</span></div>
+        </section>
+
+        <section class="stats-strip" aria-label="OpenFetch highlights">
+          <div><strong>01</strong><span>Paste any public URL</span></div>
+          <div><strong>02</strong><span>Pick your quality</span></div>
+          <div><strong>03</strong><span>Save for later</span></div>
+          <div class="status"><span class="status-dot"></span><span>Service status: <b>All systems go</b></span></div>
+        </section>
+
+        <section class="feature-section" id="how-it-works">
+          <div class="section-heading"><span class="eyebrow">WHY OPENFETCH</span><h2>Less friction.<br />More <em>freedom.</em></h2></div>
+          <div class="feature-grid">
+            <article class="feature-card feature-card-dark"><span class="feature-number">01</span><div class="feature-icon">◌</div><h3>One link in.<br />Your file out.</h3><p>Paste a public video or audio URL and we’ll find the best available formats for you.</p></article>
+            <article class="feature-card"><span class="feature-number">02</span><div class="feature-icon">✦</div><h3>Quality<br />your way.</h3><p>Choose MP4, MP3, or WEBM and download the resolution that fits your device.</p></article>
+            <article class="feature-card"><span class="feature-number">03</span><div class="feature-icon">⌁</div><h3>Privacy by<br />default.</h3><p>No accounts or personal profiles. We only process the link you submit.</p></article>
+          </div>
+        </section>
+
+        <section class="supported-section" id="supported"><div><span class="eyebrow">THE OPEN WEB</span><h2>Made for public<br /><em>media.</em></h2></div><div class="supported-copy"><p>OpenFetch is designed for media you have permission to save: your own work, public-domain media, and content offered for download by its creator.</p><div class="source-tags"><span>Direct video links</span><span>Public pages</span><span>Creative Commons</span><span>Open archives</span></div></div></section>
+      </main>
+      <footer><a class="brand" href="#top"><span class="brand-mark">↘</span><span>open<span class="brand-accent">fetch</span></span></a><p>Save openly. Respect creators.</p><span>© 2025 OpenFetch</span></footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -135,6 +135,7 @@ form.addEventListener('submit', async (event) => {
       const errorCode = error?.code || (typeof error === 'string' ? error : undefined);
       const details = {
         cobalt_resolver_not_configured: 'Page URLs need a Cobalt resolver. Configure COBALT_API_URL in Cloudflare Pages.',
+        cobalt_api_token_not_configured: 'The Cobalt resolver needs an API token. Add the provider-issued COBALT_API_TOKEN as a Cloudflare Pages secret.',
         yt_dlp_service_not_configured: 'DramaFren links need the yt-dlp service. Configure YTDLP_API_URL in Cloudflare Pages.'
       };
       const detail = details[errorCode] || error?.message || errorCode || result.detail || `resolver.http_${response.status}`;

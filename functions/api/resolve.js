@@ -43,6 +43,10 @@ export async function onRequestPost({ request, env }) {
     return Response.json({ error: 'cobalt_resolver_not_configured' }, { status: 503 });
   }
 
+  if (!env?.COBALT_API_TOKEN) {
+    return Response.json({ error: 'cobalt_api_token_not_configured' }, { status: 503 });
+  }
+
   let cobaltApiUrl;
   try {
     cobaltApiUrl = new URL(env.COBALT_API_URL);
@@ -58,7 +62,8 @@ export async function onRequestPost({ request, env }) {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${env.COBALT_API_TOKEN}`
     },
     body: JSON.stringify({
       url: mediaUrl.toString(),

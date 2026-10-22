@@ -1,0 +1,8 @@
+.git
+.venv
+.wrangler
+__pycache__
+.agents
+.codex
+node_modules
+*.pyc

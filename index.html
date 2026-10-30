@@ -21,7 +21,10 @@
           <a href="#supported">Supported sources</a>
           <a class="nav-button" href="#download">Try it free <span>→</span></a>
         </nav>
-        <button class="menu-button" aria-label="Open menu">☰</button>
+        <div class="header-actions">
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Toggle theme">☾</button>
+          <button class="menu-button" aria-label="Open menu">☰</button>
+        </div>
       </header>
 
       <main id="top">
@@ -31,11 +34,24 @@
           <p class="hero-copy">Download openly accessible video and audio from around the web in a few clicks. No account, no tracking, no clutter.</p>
 
           <form class="download-card" id="download" novalidate>
-            <label for="media-url">Paste a media link</label>
-            <div class="url-row">
+            <div class="form-heading">
+              <label for="media-url">Paste a media link</label>
+              <div class="download-mode" role="group" aria-label="Download mode">
+                <button type="button" class="mode-button active" data-mode="video" aria-pressed="true">Video</button>
+                <button type="button" class="mode-button" data-mode="audio" aria-pressed="false">Audio</button>
+              </div>
+            </div>
+            <div class="url-row" id="url-row">
               <span class="link-icon">↗</span>
               <input id="media-url" type="url" placeholder="https://example.com/video" autocomplete="off" />
-              <button type="submit">Analyze link <span>→</span></button>
+              <button class="clipboard-button" id="clipboard-button" type="button">📋 Paste</button>
+              <button class="submit-button" type="submit"><span class="button-label">Analyze link</span><span class="openfetch-spinner" aria-hidden="true"></span><span>→</span></button>
+            </div>
+            <div class="audio-options" id="audio-options" hidden>
+              <label for="audio-format">Audio format</label>
+              <select id="audio-format" name="audioFormat">
+                <option value="mp3">MP3</option><option value="m4a">M4A</option><option value="opus">Opus</option><option value="wav">WAV</option>
+              </select>
             </div>
             <div class="card-footer">
               <span>⌁ Works with public, non-DRM media</span>
@@ -63,7 +79,11 @@
           </div>
         </section>
 
-        <section class="supported-section" id="supported"><div><span class="eyebrow">THE OPEN WEB</span><h2>Made for public<br /><em>media.</em></h2></div><div class="supported-copy"><p>OpenFetch is designed for media you have permission to save: your own work, public-domain media, and content offered for download by its creator.</p><div class="source-tags"><span>Direct video links</span><span>Public pages</span><span>Creative Commons</span><span>Open archives</span></div></div></section>
+        <section class="history-section" id="recent-downloads" hidden>
+          <div class="section-heading"><span class="eyebrow">YOUR RESULTS</span><h2>Recent <em>downloads.</em></h2></div>
+          <div class="history-table-wrap"><table class="history-table"><thead><tr><th>Title</th><th>Type</th><th>Result</th><th></th></tr></thead><tbody id="download-history"></tbody></table></div>
+        </section>
+        <section class="supported-section" id="supported"><div><span class="eyebrow">THE OPEN WEB</span><h2>Made for public<br /><em>media.</em></h2></div><div class="supported-copy"><p>OpenFetch is designed for media you have permission to save: your own work, public-domain media, and content offered for download by its creator.</p><div class="source-tags platform-tags"><span>YouTube</span><span>TikTok</span><span>Instagram</span><span>Dailymotion</span><span>Direct video links</span><span>Creative Commons</span></div></div></section>
       </main>
       <footer><a class="brand" href="#top"><span class="brand-mark">↘</span><span>open<span class="brand-accent">fetch</span></span></a><p>Save openly. Respect creators.</p><span>© 2025 OpenFetch</span></footer>
     </div>

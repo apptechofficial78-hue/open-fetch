@@ -40,6 +40,8 @@ class ResolveRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
     url: HttpUrl
+    downloadMode: Literal["video", "audio"] = "video"
+    audioFormat: Literal["mp3", "m4a", "opus", "wav"] = "mp3"
 
 
 class ErrorDetail(BaseModel):
@@ -120,8 +122,9 @@ def _is_hls(media_url: str, protocol: object) -> bool:
     return path.endswith(".m3u8") or "m3u8" in protocol_name or "hls" in protocol_name
 
 
-def _extract_media(url: str) -> dict:
+def _extract_media(url: str, download_mode: str = "video", audio_format: str = "mp3") -> dict:
     options = {
+        "format": "bestaudio[ext=m4a]/bestaudio/best" if download_mode == "audio" else "bv*+ba/best/bestvideo*+bestaudio/best",
         "quiet": True,
         "no_warnings": True,
         "noplaylist": True,
@@ -152,17 +155,44 @@ def _extract_media(url: str) -> dict:
             and item["url"]
         ]
         if formats:
-            selected_info = max(
-                formats,
-                key=lambda item: (
-                    item.get("vcodec") not in (None, "none")
-                    and item.get("acodec") not in (None, "none"),
-                    _number(item.get("preference")),
-                    _number(item.get("height")),
-                    _number(item.get("tbr")),
-                ),
-            )
-            media_url = selected_info["url"]
+            if download_mode == "audio":
+                candidates = [
+                    item for item in formats
+                    if item.get("acodec") not in (None, "none")
+                    and item.get("vcodec") in (None, "none")
+                ] or [
+                    item for item in formats
+                    if item.get("acodec") not in (None, "none")
+                ]
+                selected_info = max(
+                    candidates,
+                    key=lambda item: (
+                        _number(item.get("abr")),
+                        _number(item.get("tbr")),
+                        _number(item.get("preference")),
+                    ),
+                ) if candidates else info
+            else:
+                combined = [
+                    item for item in formats
+                    if item.get("vcodec") not in (None, "none")
+                    and item.get("acodec") not in (None, "none")
+                ]
+                video_only = [
+                    item for item in formats
+                    if item.get("vcodec") not in (None, "none")
+                ]
+                candidates = combined or video_only
+                selected_info = max(
+                    candidates,
+                    key=lambda item: (
+                        _number(item.get("height")),
+                        _number(item.get("tbr")),
+                        _number(item.get("preference")),
+                    ),
+                ) if candidates else info
+            if selected_info is not info:
+                media_url = selected_info["url"]
 
     if not isinstance(media_url, str) or not media_url:
         raise ValueError("The extractor did not return a usable media URL.")
@@ -176,6 +206,9 @@ def _extract_media(url: str) -> dict:
     elif not isinstance(extension, str) or not extension:
         filename = urlsplit(media_url).path.rsplit("/", 1)[-1]
         extension = filename.rsplit(".", 1)[-1] if "." in filename else "unknown"
+
+    if download_mode == "audio" and not is_hls:
+        extension = audio_format
 
     title = info.get("title")
     thumbnail = info.get("thumbnail")
@@ -197,7 +230,7 @@ def _extract_media(url: str) -> dict:
 )
 async def resolve_media(request: ResolveRequest) -> MediaResponse:
     try:
-        result = await asyncio.to_thread(_extract_media, str(request.url))
+        result = await asyncio.to_thread(_extract_media, str(request.url), request.downloadMode, request.audioFormat)
     except yt_dlp.utils.DownloadError as exc:
         hostname = urlsplit(str(request.url)).hostname or "unknown host"
         logger.warning(

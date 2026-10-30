@@ -63,7 +63,7 @@ export async function onRequestPost({ request, env }) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${env.COBALT_API_TOKEN}`
+      Authorization: `Bearer ${env.COBALT_API_TOKEN}`,
     },
     body: JSON.stringify({
       url: mediaUrl.toString(),
